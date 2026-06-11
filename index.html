@@ -1,0 +1,2847 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nosso Dia dos Namorados</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
+
+body{
+  font-family: Georgia, serif;
+  background:linear-gradient(135deg,#ffe6ef,#fff7fa,#ffd1df);
+  color:#3a1a22;
+}
+
+section{
+  height:100dvh;
+  width:100%;
+  padding:70px 18px 95px;
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  text-align:center;
+  overflow-y:auto;
+  overflow-x:hidden;
+}
+
+section.active{
+  display:flex;
+}
+
+.page-card{
+  width:100%;
+  max-width:980px;
+  background:rgba(255,255,255,.96);
+  border:2px solid #ffc1d3;
+  border-radius:36px;
+  padding:36px 28px;
+  box-shadow:0 15px 35px rgba(209,49,101,.22);
+  margin:auto 0;
+  overflow:visible;
+}
+
+.decor{
+  color:#e72e68;
+  font-size:30px;
+  margin-bottom:14px;
+  letter-spacing:10px;
+}
+
+h1{
+  font-size:44px;
+  color:#d61d59;
+  margin-bottom:18px;
+  line-height:1.1;
+}
+
+h2{
+  font-size:34px;
+  color:#d61d59;
+  margin-bottom:22px;
+  line-height:1.15;
+}
+
+h3{
+  color:#c91f55;
+  margin-bottom:12px;
+}
+
+p{
+  max-width:780px;
+  margin-left:auto;
+  margin-right:auto;
+  font-size:18px;
+  line-height:1.7;
+}
+
+button{
+  margin-top:25px;
+  padding:14px 28px;
+  border:none;
+  border-radius:999px;
+  background:linear-gradient(135deg,#ff8caf,#e42d68);
+  color:white;
+  font-size:17px;
+  cursor:pointer;
+  box-shadow:0 8px 20px rgba(220,35,91,.28);
+  font-family:Georgia, serif;
+}
+
+button:hover{
+  transform:scale(1.03);
+}
+
+input{
+  padding:15px 18px;
+  border-radius:999px;
+  border:2px solid #ffc1d3;
+  margin-top:18px;
+  text-align:center;
+  font-size:16px;
+  outline:none;
+  color:#5c2230;
+  background:#fff7fa;
+}
+
+input:focus{
+  border-color:#e42d68;
+}
+
+.nav-voltar{
+  position:fixed;
+  top:15px;
+  left:15px;
+  z-index:1000;
+  padding:9px 15px;
+  font-size:13px;
+  background:rgba(255,255,255,.85);
+  color:#d61d59;
+  border:1px solid #ffc1d3;
+  backdrop-filter:blur(8px);
+  border-radius:999px;
+  display:none;
+  box-shadow:0 8px 18px rgba(209,49,101,.15);
+}
+
+.nav-voltar.show{
+  display:block;
+}
+
+.music-btn{
+  position:fixed;
+  top:15px;
+  right:15px;
+  z-index:1000;
+  padding:9px 15px;
+  font-size:13px;
+  background:rgba(255,255,255,.85);
+  color:#d61d59;
+  border:1px solid #ffc1d3;
+  backdrop-filter:blur(8px);
+  border-radius:999px;
+  margin-top:0;
+  box-shadow:0 8px 18px rgba(209,49,101,.15);
+}
+
+.progress-box{
+  position:fixed;
+  left:50%;
+  transform:translateX(-50%);
+  top:17px;
+  z-index:900;
+  width:210px;
+  height:18px;
+  background:rgba(255,255,255,.75);
+  border:1px solid #ffc1d3;
+  border-radius:999px;
+  overflow:hidden;
+  box-shadow:0 8px 18px rgba(209,49,101,.12);
+  display:none;
+}
+
+.progress-box.show{
+  display:block;
+}
+
+.progress-fill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(135deg,#ff9eb8,#d61d59);
+  border-radius:999px;
+  transition:.4s;
+}
+
+.progress-text{
+  position:fixed;
+  top:38px;
+  left:50%;
+  transform:translateX(-50%);
+  color:#c91f55;
+  font-size:12px;
+  z-index:900;
+  display:none;
+}
+
+.progress-text.show{
+  display:block;
+}
+
+.card{
+  background:#fff7fa;
+  border:2px solid #ffc1d3;
+  border-radius:24px;
+  padding:25px;
+  margin:15px;
+  max-width:390px;
+  box-shadow:0 10px 22px rgba(209,49,101,.13);
+}
+
+.hint-box{
+  margin:24px auto 0;
+  max-width:470px;
+  background:#fff7fa;
+  border:2px solid #ffc1d3;
+  border-radius:24px;
+  padding:24px;
+  box-shadow:0 10px 22px rgba(209,49,101,.12);
+}
+
+.hint-result{
+  margin-top:18px;
+  color:#9b284a;
+  font-size:17px;
+  line-height:1.6;
+}
+
+.count{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-top:25px;
+}
+
+.count div{
+  background:#ffe3ed;
+  color:#c91f55;
+  padding:16px;
+  border-radius:20px;
+  border:1px solid #ffc1d3;
+}
+
+.count strong{
+  display:block;
+  font-size:26px;
+  color:#d61d59;
+}
+
+.grid{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  max-width:1050px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.reason,
+.timeline-item,
+.plan-card{
+  cursor:pointer;
+}
+
+.reason.aberto{
+  background:#e42d68;
+  color:white;
+  border-color:#e42d68;
+  transform:scale(1.04);
+}
+
+.tabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
+  margin-bottom:25px;
+}
+
+.tab{
+  padding:11px 18px;
+  background:#ffe3ed;
+  color:#c91f55;
+  border:1px solid #ffc1d3;
+  border-radius:999px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.tab.active{
+  background:#e42d68;
+  color:white;
+}
+
+.tabcontent{
+  display:none;
+}
+
+.tabcontent.active{
+  display:block;
+}
+
+/* TRANSIÇÃO */
+.transition-screen{
+  position:fixed;
+  inset:0;
+  background:linear-gradient(135deg,#fff7fa,#ffdce8);
+  z-index:3000;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:#d61d59;
+  padding:30px;
+}
+
+.transition-screen.show{
+  display:flex;
+}
+
+.transition-card{
+  background:white;
+  border:2px solid #ffc1d3;
+  border-radius:34px;
+  padding:36px 28px;
+  box-shadow:0 15px 35px rgba(209,49,101,.25);
+  max-width:520px;
+}
+
+.transition-card h2{
+  margin-bottom:10px;
+}
+
+/* FOTOS */
+.fotos-area{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  max-width:1000px;
+  padding-top:15px;
+  margin:auto;
+}
+
+.photo{
+  width:225px;
+  min-height:auto;
+  background:#fff;
+  color:#3a1a22;
+  padding:12px;
+  border-radius:14px;
+  transform:rotate(-3deg);
+  margin:18px;
+  box-shadow:0 12px 25px rgba(209,49,101,.20);
+  border:1px solid #ffe0e9;
+  cursor:pointer;
+}
+
+.photo:nth-child(even){
+  transform:rotate(3deg);
+}
+
+.photo:hover{
+  transform:scale(1.04);
+}
+
+.photo img{
+  width:100%;
+  height:210px;
+  object-fit:cover;
+  background:#f4dce5;
+  border-radius:9px;
+}
+
+.photo-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(60,10,25,.72);
+  z-index:2500;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:22px;
+}
+
+.photo-modal.show{
+  display:flex;
+}
+
+.photo-modal-card{
+  max-width:760px;
+  width:100%;
+  background:white;
+  border:2px solid #ffc1d3;
+  border-radius:30px;
+  padding:20px;
+  box-shadow:0 20px 45px rgba(0,0,0,.30);
+}
+
+.photo-modal-card img{
+  width:100%;
+  max-height:70vh;
+  object-fit:contain;
+  border-radius:20px;
+  background:#fff7fa;
+}
+
+.photo-modal-card p{
+  color:#9b284a;
+  margin-top:16px;
+}
+
+/* LINHA DO TEMPO */
+.timeline-line{
+  width:100%;
+  max-width:620px;
+  margin:28px auto 0;
+  position:relative;
+}
+
+.timeline-item{
+  background:#fff7fa;
+  border:2px solid #ffc1d3;
+  border-radius:26px;
+  padding:22px;
+  margin:22px 0;
+  transition:.3s;
+  box-shadow:0 10px 22px rgba(209,49,101,.13);
+}
+
+.timeline-item:hover{
+  transform:scale(1.02);
+  background:#ffeef4;
+}
+
+.timeline-detail{
+  display:none;
+  margin-top:18px;
+  background:white;
+  border:1px solid #ffc1d3;
+  border-radius:24px;
+  padding:18px;
+}
+
+.timeline-item.open .timeline-detail{
+  display:block;
+}
+
+.timeline-detail-block{
+  background:#fff7fa;
+  border:1px solid #ffd3df;
+  border-radius:20px;
+  padding:16px;
+  margin:14px 0;
+}
+
+.sky-img{
+  width:100%;
+  height:230px;
+  object-fit:cover;
+  border-radius:20px;
+  margin:15px 0;
+  background:#0b0620;
+  border:2px solid #ffc1d3;
+}
+
+.coords{
+  font-size:14px;
+  color:#b82b54;
+  margin-top:8px;
+}
+
+.sky-caption{
+  color:#d61d59;
+  font-size:15px;
+  margin-top:-5px;
+  font-style:italic;
+}
+
+/* CAÇA-PALAVRAS */
+.word-page{
+  width:100%;
+  max-width:980px;
+  background:#ffffff;
+  border:2px solid #ffc1d3;
+  border-radius:38px;
+  padding:34px 28px 28px;
+  box-shadow:0 15px 35px rgba(209,49,101,.22);
+  margin:auto 0;
+}
+
+.word-decor-top{
+  color:#ff6f9a;
+  font-size:34px;
+  margin-bottom:10px;
+  letter-spacing:10px;
+}
+
+.word-title{
+  color:#d61d59;
+  font-size:48px;
+  line-height:1.1;
+  margin-bottom:12px;
+}
+
+.word-divider{
+  color:#ff6f9a;
+  margin:10px auto 20px;
+  font-size:24px;
+  letter-spacing:16px;
+}
+
+.word-subtitle{
+  color:#3a1a22;
+  font-size:20px;
+  margin-bottom:22px;
+}
+
+.word-wrapper{
+  background:white;
+  border:2px solid #ffc1d3;
+  border-radius:24px;
+  padding:18px;
+  max-width:900px;
+  margin:20px auto 22px;
+  overflow-x:auto;
+}
+
+.word-search{
+  display:grid;
+  grid-template-columns:26px repeat(21,31px);
+  grid-auto-rows:31px;
+  gap:5px;
+  width:max-content;
+  margin:0 auto;
+  user-select:none;
+}
+
+.coord-label,
+.coord-corner,
+.cell{
+  width:31px;
+  height:31px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.coord-label{
+  color:#d61d59;
+  font-weight:bold;
+  font-size:13px;
+  border-radius:6px;
+}
+
+.coord-corner{
+  width:26px;
+  height:31px;
+}
+
+.row-label{
+  width:26px;
+}
+
+.cell{
+  background:white;
+  color:#35141c;
+  border-radius:6px;
+  font-weight:bold;
+  font-size:16px;
+  cursor:pointer;
+  border:1px solid transparent;
+}
+
+.cell:hover{
+  border-color:#ffc1d3;
+}
+
+.cell.selected{
+  background:#ffb5ca;
+  color:#9b143b;
+}
+
+.cell.found{
+  background:#e42d68;
+  color:white;
+}
+
+.cell.found.selected{
+  background:#ff8caf;
+  color:white;
+  outline:2px solid #9b143b;
+}
+
+.word-list{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:14px;
+  margin:20px auto 0;
+  max-width:850px;
+}
+
+.word-list span{
+  min-width:130px;
+  background:linear-gradient(135deg,#ffe1eb,#ffc1d3);
+  color:#d61d59;
+  padding:12px 18px;
+  border-radius:999px;
+  font-weight:bold;
+  font-size:16px;
+  border:1px solid #ffc1d3;
+  box-shadow:0 6px 13px rgba(209,49,101,.12);
+}
+
+.word-list span.found{
+  background:#e42d68;
+  color:white;
+  text-decoration:line-through;
+}
+
+.word-bottom-decor{
+  color:#ff6f9a;
+  font-size:26px;
+  margin-top:22px;
+  letter-spacing:8px;
+}
+
+.clear-selection{
+  margin-top:14px;
+  padding:10px 20px;
+  font-size:14px;
+  background:#fff1f6;
+  color:#d61d59;
+  border:1px solid #ffc1d3;
+  box-shadow:none;
+}
+
+/* PLANOS */
+.plan-card{
+  background:#fff7fa;
+  border:2px solid #ffc1d3;
+  border-radius:26px;
+  padding:24px;
+  margin:14px;
+  width:270px;
+  min-height:155px;
+  box-shadow:0 10px 22px rgba(209,49,101,.13);
+}
+
+.plan-card h3{
+  margin-bottom:10px;
+}
+
+/* ENVELOPES COM CARTA VINDO PARA FRENTE */
+.envelope-grid{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items:flex-start;
+  gap:36px 30px;
+  margin-top:32px;
+  overflow:visible;
+}
+
+.letter-envelope{
+  position:relative;
+  width:280px;
+  height:230px;
+  cursor:pointer;
+  perspective:1000px;
+  transition:height .55s ease, transform .55s ease, z-index .1s;
+  z-index:1;
+}
+
+.letter-envelope.open{
+  height:470px;
+  z-index:80;
+  transform:scale(1.03);
+}
+
+.paper-note{
+  position:absolute;
+  left:50%;
+  bottom:62px;
+  transform:translateX(-50%) translateY(0) scale(.92);
+  width:84%;
+  height:190px;
+  background:#fffdfd;
+  border:2px solid #ffd1de;
+  border-radius:18px;
+  padding:18px 16px;
+  box-shadow:0 10px 22px rgba(209,49,101,.10);
+  z-index:1;
+  opacity:0;
+  pointer-events:none;
+  overflow:hidden;
+  transition:transform .70s ease, opacity .45s ease, box-shadow .70s ease, height .70s ease;
+  text-align:center;
+}
+
+.paper-note h4{
+  color:#d61d59;
+  font-size:18px;
+  margin-bottom:10px;
+  line-height:1.25;
+}
+
+.paper-note p{
+  font-size:15px;
+  line-height:1.55;
+  color:#6b2b3e;
+}
+
+.letter-envelope.open .paper-note{
+  transform:translateX(-50%) translateY(-190px) scale(1.06);
+  height:285px;
+  opacity:1;
+  pointer-events:auto;
+  z-index:20;
+  overflow-y:auto;
+  box-shadow:0 22px 35px rgba(209,49,101,.24);
+}
+
+.paper-note::-webkit-scrollbar{
+  width:6px;
+}
+
+.paper-note::-webkit-scrollbar-thumb{
+  background:#ffc1d3;
+  border-radius:999px;
+}
+
+.envelope-base{
+  position:absolute;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  height:170px;
+  z-index:10;
+}
+
+.envelope-back{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,#fff7fa,#ffe8f0);
+  border:2px solid #ffc1d3;
+  border-radius:0 0 22px 22px;
+  box-shadow:0 12px 22px rgba(209,49,101,.12);
+}
+
+.envelope-front{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:106px;
+  background:linear-gradient(180deg,#ffe7ef,#ffd9e6);
+  border:2px solid #ffc1d3;
+  border-top:none;
+  border-radius:0 0 22px 22px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  padding:0 14px 18px;
+  text-align:center;
+  z-index:13;
+}
+
+.envelope-front::before{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:0;
+  height:0;
+  border-bottom:106px solid #ffd5e3;
+  border-right:140px solid transparent;
+  border-radius:0 0 0 20px;
+}
+
+.envelope-front::after{
+  content:"";
+  position:absolute;
+  right:0;
+  bottom:0;
+  width:0;
+  height:0;
+  border-bottom:106px solid #ffd5e3;
+  border-left:140px solid transparent;
+  border-radius:0 0 20px 0;
+}
+
+.envelope-front span{
+  color:#b82b54;
+  font-size:17px;
+  line-height:1.3;
+  font-weight:600;
+  position:relative;
+  z-index:15;
+}
+
+.envelope-flap{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:92px;
+  transform-origin:top center;
+  transition:transform .70s ease;
+  z-index:14;
+}
+
+.envelope-flap::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:0;
+  transform:translateX(-50%);
+  width:0;
+  height:0;
+  border-left:140px solid transparent;
+  border-right:140px solid transparent;
+  border-top:92px solid #ffcfe0;
+  filter:drop-shadow(0 2px 0 #ffc1d3);
+}
+
+.letter-envelope.open .envelope-flap{
+  transform:rotateX(180deg);
+}
+
+.envelope-seal{
+  position:absolute;
+  left:50%;
+  top:56px;
+  transform:translateX(-50%);
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  background:#e83b72;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:15px;
+  z-index:16;
+  box-shadow:0 4px 10px rgba(232,59,114,.35);
+  transition:.4s;
+}
+
+.letter-envelope.open .envelope-seal{
+  opacity:0;
+  transform:translateX(-50%) scale(.5);
+}
+
+.envelope-hint{
+  margin-top:18px;
+  font-size:14px;
+  color:#a94867;
+}
+
+/* CARTA PRINCIPAL */
+.letter{
+  max-width:820px;
+  background:#fff7fa;
+  border:2px solid #ffc1d3;
+  padding:30px;
+  border-radius:28px;
+  font-size:19px;
+  line-height:1.8;
+  min-height:260px;
+  white-space:pre-line;
+  color:#5a2431;
+  box-shadow:0 10px 22px rgba(209,49,101,.13);
+  text-align:left;
+}
+
+.hidden{
+  display:none;
+}
+
+.resultado{
+  margin-top:10px;
+  font-size:18px;
+  color:#c91f55;
+}
+
+.heart{
+  position:fixed;
+  top:-20px;
+  color:#e42d68;
+  animation:fall 5s linear forwards;
+  z-index:999;
+}
+
+@keyframes fall{
+  to{
+    transform:translateY(110vh);
+    opacity:0;
+  }
+}
+
+@media(max-width:700px){
+  section{
+    padding:64px 12px 88px;
+  }
+
+  .page-card,
+  .word-page{
+    border-radius:28px;
+    padding:28px 14px;
+  }
+
+  h1{
+    font-size:31px;
+  }
+
+  h2{
+    font-size:27px;
+  }
+
+  p{
+    font-size:16px;
+  }
+
+  .progress-box{
+    width:160px;
+  }
+
+  .progress-text{
+    font-size:11px;
+  }
+
+  .count{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .count strong{
+    font-size:22px;
+  }
+
+  .music-btn,
+  .nav-voltar{
+    top:12px;
+  }
+
+  .photo{
+    width:180px;
+    min-height:auto;
+  }
+
+  .photo img{
+    height:165px;
+  }
+
+  .sky-img{
+    height:190px;
+  }
+
+  .word-title{
+    font-size:31px;
+  }
+
+  .word-subtitle{
+    font-size:16px;
+  }
+
+  .word-wrapper{
+    padding:8px;
+    border-radius:18px;
+    overflow-x:auto;
+  }
+
+  .word-search{
+    grid-template-columns:18px repeat(21,18px);
+    grid-auto-rows:18px;
+    gap:2px;
+  }
+
+  .coord-label,
+  .coord-corner,
+  .cell{
+    width:18px;
+    height:18px;
+  }
+
+  .coord-corner,
+  .row-label{
+    width:18px;
+  }
+
+  .coord-label{
+    font-size:7px;
+  }
+
+  .cell{
+    font-size:8px;
+    border-radius:3px;
+  }
+
+  .word-list{
+    gap:8px;
+  }
+
+  .word-list span{
+    min-width:95px;
+    font-size:11px;
+    padding:8px 10px;
+  }
+
+  .word-decor-top{
+    font-size:24px;
+    letter-spacing:6px;
+  }
+
+  .word-divider{
+    font-size:18px;
+    letter-spacing:8px;
+  }
+
+  .plan-card{
+    width:100%;
+  }
+
+  .letter-envelope{
+    width:100%;
+    max-width:290px;
+    height:225px;
+  }
+
+  .letter-envelope.open{
+    height:455px;
+    transform:scale(1.01);
+  }
+
+  .paper-note{
+    width:86%;
+    height:180px;
+    padding:16px 14px;
+  }
+
+  .letter-envelope.open .paper-note{
+    transform:translateX(-50%) translateY(-185px) scale(1.03);
+    height:275px;
+  }
+
+  .paper-note h4{
+    font-size:17px;
+  }
+
+  .paper-note p{
+    font-size:14px;
+  }
+
+  .envelope-front span{
+    font-size:15px;
+  }
+
+  .envelope-flap::before{
+    border-left:145px solid transparent;
+    border-right:145px solid transparent;
+    border-top:92px solid #ffcfe0;
+  }
+
+  .envelope-front::before{
+    border-right:145px solid transparent;
+  }
+
+  .envelope-front::after{
+    border-left:145px solid transparent;
+  }
+}
+
+
+/* NOVA PALETA: ROSA, AZUL E VERMELHO */
+:root{
+  --rosa-escuro:#c93384;
+  --rosa-medio:#e44f9c;
+  --rosa-vivo:#ff69b4;
+  --rosa-claro:#ff97d9;
+
+  --azul-escuro:#012a53;
+  --azul-medio:#1f5283;
+  --azul-claro:#5a91bb;
+  --azul-suave:#93b7d2;
+
+  --vermelho-vivo:#ff0d0d;
+  --vermelho-medio:#d90000;
+  --vermelho-escuro:#a30000;
+
+  --fundo:#fff1f8;
+  --texto:#35141c;
+}
+
+body{
+  background:
+    radial-gradient(circle at top left, rgba(255,105,180,.20), transparent 35%),
+    radial-gradient(circle at bottom right, rgba(1,42,83,.16), transparent 38%),
+    linear-gradient(135deg,#fff4fa,#ffe5f1,#ffd6ea);
+  color:var(--texto);
+}
+
+.page-card,
+.word-page{
+  background:rgba(255,255,255,.97);
+  border:2px solid var(--rosa-claro);
+  box-shadow:0 18px 38px rgba(201,51,132,.18);
+}
+
+h1,
+h2,
+h3,
+.word-title{
+  color:var(--rosa-escuro);
+}
+
+p{
+  color:#4d2437;
+}
+
+.decor,
+.word-decor-top,
+.word-divider,
+.word-bottom-decor{
+  color:var(--vermelho-medio);
+}
+
+button{
+  background:linear-gradient(135deg,var(--rosa-vivo),var(--rosa-medio),var(--rosa-escuro));
+  color:white;
+  box-shadow:0 9px 22px rgba(201,51,132,.28);
+}
+
+button:hover{
+  transform:translateY(-2px) scale(1.03);
+  box-shadow:0 12px 25px rgba(201,51,132,.36);
+}
+
+.nav-voltar,
+.music-btn{
+  background:rgba(255,255,255,.90);
+  color:var(--azul-escuro);
+  border:1px solid var(--azul-suave);
+  box-shadow:0 8px 18px rgba(1,42,83,.13);
+}
+
+.progress-box{
+  background:rgba(255,255,255,.80);
+  border:1px solid var(--rosa-claro);
+}
+
+.progress-fill{
+  background:linear-gradient(90deg,var(--rosa-vivo),var(--rosa-escuro),var(--vermelho-medio));
+}
+
+.progress-text{
+  color:var(--rosa-escuro);
+}
+
+.tab{
+  background:#fff1f8;
+  color:var(--azul-escuro);
+  border:1px solid var(--azul-suave);
+}
+
+.tab.active{
+  background:linear-gradient(135deg,var(--azul-escuro),var(--azul-medio));
+  color:white;
+}
+
+.count div{
+  background:linear-gradient(180deg,#fff7fb,#ffe4f2);
+  color:var(--rosa-escuro);
+  border:1px solid var(--rosa-claro);
+}
+
+.count strong{
+  color:var(--azul-escuro);
+}
+
+.card,
+.timeline-item,
+.plan-card{
+  background:#fff8fc;
+  border:2px solid var(--rosa-claro);
+  box-shadow:0 10px 24px rgba(201,51,132,.13);
+}
+
+.reason{
+  background:#fff8fc;
+  color:#35141c;
+  border:2px solid var(--rosa-claro);
+  transition:.25s ease;
+}
+
+.reason.aberto{
+  background:linear-gradient(135deg,var(--azul-escuro),var(--azul-medio));
+  color:white;
+  border-color:var(--azul-claro);
+  transform:scale(1.04);
+  box-shadow:0 12px 25px rgba(1,42,83,.22);
+}
+
+.photo{
+  border:1px solid var(--rosa-claro);
+  box-shadow:0 14px 26px rgba(201,51,132,.20);
+}
+
+.timeline-item:hover{
+  background:#fff0f8;
+}
+
+.timeline-detail{
+  border:1px solid var(--rosa-claro);
+}
+
+.timeline-detail-block{
+  background:#fff7fb;
+  border:1px solid var(--rosa-claro);
+}
+
+.coords,
+.sky-caption{
+  color:var(--azul-medio);
+}
+
+.word-wrapper{
+  background:white;
+  border:2px solid var(--rosa-claro);
+  box-shadow:0 10px 22px rgba(201,51,132,.10);
+}
+
+.coord-label{
+  color:var(--azul-escuro);
+  font-weight:bold;
+}
+
+.cell{
+  color:#35141c;
+}
+
+.cell:hover{
+  border-color:var(--rosa-claro);
+}
+
+.cell.selected{
+  background:var(--azul-claro);
+  color:white;
+}
+
+.cell.found{
+  background:var(--rosa-escuro);
+  color:white;
+}
+
+.cell.found.selected{
+  background:var(--vermelho-medio);
+  color:white;
+  outline:2px solid var(--azul-escuro);
+}
+
+.word-list span{
+  background:linear-gradient(135deg,#fff0f8,var(--rosa-claro));
+  color:var(--rosa-escuro);
+  border:1px solid var(--rosa-claro);
+}
+
+.word-list span.found{
+  background:linear-gradient(135deg,var(--azul-escuro),var(--azul-medio));
+  color:white;
+  text-decoration:line-through;
+  border-color:var(--azul-claro);
+}
+
+.clear-selection{
+  background:white;
+  color:var(--azul-escuro);
+  border:1px solid var(--azul-suave);
+}
+
+.paper-note{
+  background:#fffdfd;
+  border:2px solid var(--rosa-claro);
+}
+
+.paper-note h4{
+  color:var(--rosa-escuro);
+}
+
+.paper-note p{
+  color:#4d2437;
+}
+
+.envelope-back{
+  background:linear-gradient(180deg,#fff8fc,#ffe5f1);
+  border:2px solid var(--rosa-claro);
+}
+
+.envelope-front{
+  background:linear-gradient(180deg,#ffe4f2,#ffd1e8);
+  border:2px solid var(--rosa-claro);
+  border-top:none;
+}
+
+.envelope-front::before{
+  border-bottom-color:#ffc2e2;
+}
+
+.envelope-front::after{
+  border-bottom-color:#ffc2e2;
+}
+
+.envelope-flap::before{
+  border-top-color:#ff97d9;
+  filter:drop-shadow(0 2px 0 var(--rosa-claro));
+}
+
+.envelope-front span{
+  color:var(--azul-escuro);
+}
+
+.envelope-seal{
+  background:var(--vermelho-medio);
+}
+
+.letter{
+  background:linear-gradient(180deg,#fffdfd,#fff5fa);
+  border:2px solid var(--rosa-claro);
+  color:#3f1d2d;
+  box-shadow:0 12px 26px rgba(201,51,132,.14);
+}
+
+.resultado{
+  color:var(--rosa-escuro);
+}
+
+.hint-box{
+  background:#fff8fc;
+  border:2px solid var(--rosa-claro);
+}
+
+.hint-result{
+  color:var(--azul-escuro);
+}
+
+.heart{
+  color:var(--vermelho-medio);
+}
+
+.photo-modal{
+  background:rgba(1,42,83,.72);
+}
+
+.photo-modal-card{
+  border:2px solid var(--rosa-claro);
+}
+
+</style>
+</head>
+
+<body>
+
+<audio id="musica" loop>
+  <source src="musicas/musica 1.mp3" type="audio/mpeg">
+</audio>
+
+<button class="nav-voltar" id="btnVoltar" onclick="voltarPagina()">Voltar</button>
+<button class="music-btn" onclick="toggleMusica()" id="btnMusica">Música</button>
+
+<div class="progress-box" id="progressBox">
+  <div class="progress-fill" id="progressFill"></div>
+</div>
+<div class="progress-text" id="progressText"></div>
+
+<div class="transition-screen" id="transitionScreen">
+  <div class="transition-card">
+    <h2>Senha correta</h2>
+    <p>Bem-vinda ao nosso pequeno universo.</p>
+  </div>
+</div>
+
+<div class="photo-modal" id="photoModal" onclick="fecharFotoModal()">
+  <div class="photo-modal-card" onclick="event.stopPropagation()">
+    <img id="modalImg" src="" alt="Foto ampliada">
+    <p id="modalCaption"></p>
+    <button onclick="fecharFotoModal()">Fechar</button>
+  </div>
+</div>
+
+<section id="desbloqueio" class="active">
+  <div class="page-card">
+    <div class="decor">♥ ♥ ♥</div>
+    <h1>Antes de começar...</h1>
+    <p>Existe uma data que mudou muitas coisas. Digite a senha para abrir esse presente.</p>
+
+    <input id="senhaData" placeholder="Digite a senha">
+    <br>
+    <button onclick="verificarSenha()">Desbloquear</button>
+
+    <p id="erroSenha" class="resultado"></p>
+
+    <div class="hint-box">
+      <h3>Esqueceu a senha?</h3>
+      <p>A dica existe, mas o sistema exige uma condição especial para liberar.</p>
+      <button onclick="pedirDica()" id="btnDica">Solicitar dica</button>
+      <div id="dicaResultado" class="hint-result"></div>
+    </div>
+  </div>
+</section>
+
+<section id="inicio">
+  <div class="page-card">
+    <div class="decor">♥ ♥ ♥</div>
+    <h1>Feliz Dia dos Namorados</h1>
+    <p>Eu preparei isso para guardar um pedacinho da nossa história, das coisas que sinto por você e de tudo que ainda quero viver ao seu lado.</p>
+    <button onclick="proximaPagina()">Começar</button>
+  </div>
+</section>
+
+<section id="contadores">
+  <div class="page-card">
+    <div class="decor">♥ ♥ ♥</div>
+    <h2>Nossos Contadores</h2>
+
+    <div class="tabs">
+      <div class="tab active" onclick="abrirAba(0)">Primeiro beijo</div>
+      <div class="tab" onclick="abrirAba(1)">Eu te amo</div>
+      <div class="tab" onclick="abrirAba(2)">Nosso namoro</div>
+    </div>
+
+    <div class="tabcontent active">
+      <p>Desde o nosso primeiro beijo:</p>
+      <div class="count" id="contadorBeijo"></div>
+    </div>
+
+    <div class="tabcontent">
+      <p>Desde o dia em que dissemos “eu te amo” pela primeira vez:</p>
+      <div class="count" id="contadorAmor"></div>
+    </div>
+
+    <div class="tabcontent">
+      <p>Desde o dia em que começamos a namorar:</p>
+      <div class="count" id="contadorNamoro"></div>
+    </div>
+
+    <button onclick="proximaPagina()">Continuar</button>
+  </div>
+</section>
+
+<section id="fotos">
+  <div class="page-card">
+    <div class="decor">♥ ♥ ♥</div>
+    <h2>Nossos momentos em fotos</h2>
+    <p>Algumas imagens guardam pedaços bonitos da nossa história. Toque em uma foto para abrir.</p>
+
+   <div class="fotos-area">
+  <div class="photo" onclick="abrirFotoModal('imagens/foto 1.jpeg','')">
+    <img src="imagens/foto 1.jpeg" alt="Foto 1">
+  </div>
+
+  <div class="photo" onclick="abrirFotoModal('imagens/foto 2.jpeg','')">
+    <img src="imagens/foto 2.jpeg" alt="Foto 2">
+  </div>
+
+  <div class="photo" onclick="abrirFotoModal('imagens/foto 3.jpeg','')">
+    <img src="imagens/foto 3.jpeg" alt="Foto 3">
+  </div>
+
+  <div class="photo" onclick="abrirFotoModal('imagens/foto 4.jpeg','')">
+    <img src="imagens/foto 4.jpeg" alt="Foto 4">
+  </div>
+</div>
+
+    <button onclick="proximaPagina()">Continuar</button>
+  </div>
+</section>
+
+<section id="historia">
+  <div class="page-card">
+    <div class="decor">♥ ♥ ♥</div>
+    <h2>Nossa história em forma de linha do tempo</h2>
+    <p>Toque em cada data para abrir o momento.</p>
+
+    <div class="timeline-line">
+
+      <div class="timeline-item" onclick="abrirMomento(this)">
+        <h3>08/11/2024</h3>
+        <p>Primeiro beijo</p>
+
+        <div class="timeline-detail">
+          <h3>Primeiro Beijo</h3>
+
+          <div class="timeline-detail-block">
+            <p><strong>O que aconteceu:</strong></p>
+            <p>Foi o nosso primeiro beijo, em Manaíra, às 20:00.</p>
+          </div>
+
+          <div class="timeline-detail-block">
+            <p><strong>O que eu senti:</strong></p>
+            <p>Naquele dia eu ainda não sabia tudo que viveríamos, mas olhando para trás, parece que uma parte de mim já sabia que você seria especial.</p>
+          </div>
+
+          <p><strong>Data:</strong> 08/11/2024</p>
+          <p><strong>Horário:</strong> 20:00</p>
+          <p><strong>Local:</strong> Manaíra</p>
+          <p class="coords">Coordenadas: 7°06'17.3"S 34°49'44.4"W</p>
+
+          <img class="sky-img" src="ceu/ceu 1 beijo.png" alt="Céu do primeiro beijo">
+          <p class="sky-caption">O céu daquele dia.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item" onclick="abrirMomento(this)">
+        <h3>15/02/2026</h3>
+        <p>Primeiro “eu te amo”</p>
+
+        <div class="timeline-detail">
+          <h3>Primeiro Eu Te Amo</h3>
+
+          <div class="timeline-detail-block">
+            <p><strong>O que aconteceu:</strong></p>
+            <p>Foi a primeira vez que dissemos “eu te amo”, à meia-noite.</p>
+          </div>
+
+          <div class="timeline-detail-block">
+            <p><strong>O que eu senti:</strong></p>
+            <p>Existem palavras que mudam tudo. Nesse dia, três palavras fizeram o meu coração entender ainda mais o quanto você era importante para mim.</p>
+          </div>
+
+          <p><strong>Data:</strong> 15/02/2026</p>
+          <p><strong>Horário:</strong> 00:00</p>
+          <p><strong>Local:</strong> Rua Sideral, 686</p>
+          <p class="coords">Coordenadas: 8.125633° S, 34.918908° W</p>
+
+          <img class="sky-img" src="ceu/ceu 1 te amo.png" alt="Céu do primeiro eu te amo">
+          <p class="sky-caption">O céu daquele dia.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item" onclick="abrirMomento(this)">
+        <h3>16/05/2026</h3>
+        <p>Pedido de namoro</p>
+
+        <div class="timeline-detail">
+          <h3>Pedido de Namoro</h3>
+
+          <div class="timeline-detail-block">
+            <p><strong>O que aconteceu:</strong></p>
+            <p>Foi o nosso pedido de namoro, em Manaíra, às 11:00.</p>
+          </div>
+
+          <div class="timeline-detail-block">
+            <p><strong>O que eu senti:</strong></p>
+            <p>Foi o dia em que deixamos de ser apenas duas pessoas se gostando e começamos a construir uma história com nome, cuidado e futuro.</p>
+          </div>
+
+          <p><strong>Data:</strong> 16/05/2026</p>
+          <p><strong>Horário:</strong> 11:00</p>
+          <p><strong>Local:</strong> Manaíra</p>
+          <p class="coords">Coordenadas: 7°05'46.0"S 34°50'39.7"W</p>
+
+          <img class="sky-img" src="ceu/ceu.png" alt="Céu do pedido de namoro">
+          <p class="sky-caption">O céu daquele dia.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <button onclick="proximaPagina()">Continuar</button>
+  </div>
+</section>
+
+<section id="paixao">
+  <div class="page-card">
+    <div class="decor">♥ ♥ ♥</div>
+    <h2>Coisas que me fazem me apaixonar por você</h2>
+
+    <div class="grid">
+      <div class="card reason" onclick="mostrarMotivo(this)">Seu sorriso</div>
+      <div class="card reason" onclick="mostrarMotivo(this)">Seu jeito de cuidar</div>
+      <div class="card reason" onclick="mostrarMotivo(this)">Sua voz</div>
+      <div class="card reason" onclick="mostrarMotivo(this)">Seu abraço</div>
+      <div class="card reason" onclick="mostrarMotivo(this)">Sua forma de me olhar</div>
+      <div class="card reason" onclick="mostrarMotivo(this)">O jeito que você transforma meus dias</div>
+      <div class="card reason" onclick="mostrarMotivo(this)">Sua presença</div>
+      <div class="card reason" onclick="mostrarMotivo(this)">A paz que você me traz</div>
+    </div>
+
+    <button onclick="proximaPagina()">Continuar</button>
+  </div>
+</section>
+
+<section id="sinto">
+  <div class="word-page">
+    <div class="word-decor-top">• ♥ ♥ ♥ •</div>
+    <h2 class="word-title">Tudo o que encontro em você</h2>
+    <div class="word-divider">──── ♥ ────</div>
+    <p class="word-subtitle">Encontre as palavras escondidas no caça-palavras.</p>
+
+    <div class="word-wrapper">
+      <div class="word-search" id="wordSearch"></div>
+    </div>
+
+    <div class="word-list" id="listaPalavras"></div>
+
+    <button class="clear-selection" onclick="limparSelecao()">Limpar seleção</button>
+
+    <p id="resultadoCaca" class="resultado"></p>
+
+    <div class="word-bottom-decor">• ─── ♥ ─── •</div>
+
+    <button onclick="proximaPagina()">Continuar</button>
+  </div>
+</section>
+
+<section id="nossosplanos">
+  <div class="page-card">
+    <div class="decor">♥ ♥ ♥</div>
+    <h2>Coisas que ainda quero viver com você</h2>
+    <p>Porque o que já vivemos é bonito, mas o que ainda vem também mora nos meus pensamentos.</p>
+
+    <div class="grid">
+      <div class="plan-card">
+        <h3>Viajar juntos</h3>
+        <p>Conhecer lugares, tirar fotos, rir de coisas bobas e guardar memórias nossas.</p>
+      </div>
+
+      <div class="plan-card">
+        <h3>Ter nossos cantinhos</h3>
+        <p>Lugares simples, mas que virem especiais só porque são nossos.</p>
+      </div>
+
+      <div class="plan-card">
+        <h3>Comemorar muitas datas</h3>
+        <p>Não só as grandes, mas também aquelas pequenas que só a gente entende.</p>
+      </div>
+
+      <div class="plan-card">
+        <h3>Construir uma rotina bonita</h3>
+        <p>Com carinho, cuidado, presença e vontade de continuar.</p>
+      </div>
+
+      <div class="plan-card">
+        <h3>Realizar sonhos lado a lado</h3>
+        <p>Ver você crescendo, vencer junto e celebrar cada conquista.</p>
+      </div>
+    </div>
+
+    <button onclick="proximaPagina()">Continuar</button>
+  </div>
+</section>
+
+<section id="nuncadisse">
+  <div class="page-card">
+    <div class="decor">♥ ♥ ♥</div>
+    <h2>Coisas que eu nunca te disse</h2>
+    <p>Toque nas cartas para abrir.</p>
+
+    <div class="envelope-grid">
+
+      <div class="letter-envelope" onclick="toggleEnvelope(this)">
+        <div class="paper-note">
+          <h4>Uma coisa que admiro em você</h4>
+          <p>Admiro o jeito como você consegue ser forte e doce ao mesmo tempo.</p>
+        </div>
+        <div class="envelope-base">
+          <div class="envelope-back"></div>
+          <div class="envelope-flap"></div>
+          <div class="envelope-front"><span>Uma coisa que admiro em você</span></div>
+          <div class="envelope-seal">♥</div>
+        </div>
+      </div>
+
+      <div class="letter-envelope" onclick="toggleEnvelope(this)">
+        <div class="paper-note">
+          <h4>Um momento que nunca esqueci</h4>
+          <p>Nunca esqueci quando percebi que você estava virando meu lugar favorito.</p>
+        </div>
+        <div class="envelope-base">
+          <div class="envelope-back"></div>
+          <div class="envelope-flap"></div>
+          <div class="envelope-front"><span>Um momento que nunca esqueci</span></div>
+          <div class="envelope-seal">♥</div>
+        </div>
+      </div>
+
+      <div class="letter-envelope" onclick="toggleEnvelope(this)">
+        <div class="paper-note">
+          <h4>Uma coisa que amo no seu jeito</h4>
+          <p>Amo como você consegue deixar tudo com uma sensação mais leve só por estar perto.</p>
+        </div>
+        <div class="envelope-base">
+          <div class="envelope-back"></div>
+          <div class="envelope-flap"></div>
+          <div class="envelope-front"><span>Uma coisa que amo no seu jeito</span></div>
+          <div class="envelope-seal">♥</div>
+        </div>
+      </div>
+
+      <div class="letter-envelope" onclick="toggleEnvelope(this)">
+        <div class="paper-note">
+          <h4>Uma coisa que quero viver com você</h4>
+          <p>Quero viver dias simples, viagens, risadas e muitos planos ao seu lado.</p>
+        </div>
+        <div class="envelope-base">
+          <div class="envelope-back"></div>
+          <div class="envelope-flap"></div>
+          <div class="envelope-front"><span>Uma coisa que quero viver com você</span></div>
+          <div class="envelope-seal">♥</div>
+        </div>
+      </div>
+
+      <div class="letter-envelope" onclick="toggleEnvelope(this)">
+        <div class="paper-note">
+          <h4>Uma coisa que talvez você não perceba</h4>
+          <p>Você faz diferença em mim até quando acha que não está fazendo nada.</p>
+        </div>
+        <div class="envelope-base">
+          <div class="envelope-back"></div>
+          <div class="envelope-flap"></div>
+          <div class="envelope-front"><span>Uma coisa que talvez você não perceba</span></div>
+          <div class="envelope-seal">♥</div>
+        </div>
+      </div>
+
+      <div class="letter-envelope" onclick="toggleEnvelope(this)">
+        <div class="paper-note">
+          <h4>Uma promessa minha</h4>
+          <p>Prometo tentar cuidar de nós com carinho, respeito e vontade de permanecer.</p>
+        </div>
+        <div class="envelope-base">
+          <div class="envelope-back"></div>
+          <div class="envelope-flap"></div>
+          <div class="envelope-front"><span>Uma promessa minha</span></div>
+          <div class="envelope-seal">♥</div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="envelope-hint">Clique novamente caso queira fechar a carta.</p>
+
+    <button onclick="proximaPagina()">Continuar</button>
+  </div>
+</section>
+
+<section id="cartas">
+  <div class="page-card">
+    <div class="decor">♥ ♥ ♥</div>
+    <h2>Cartas escondidas</h2>
+    <p>Abra quando precisar.</p>
+
+    <div class="envelope-grid">
+
+      <div class="letter-envelope" onclick="toggleEnvelope(this)">
+        <div class="paper-note">
+          <h4>Abra quando estiver triste</h4>
+          <p>Lembre que você é amada, importante e nunca está sozinha. Mesmo nos dias difíceis, eu espero ser um lugar de carinho para você.</p>
+        </div>
+        <div class="envelope-base">
+          <div class="envelope-back"></div>
+          <div class="envelope-flap"></div>
+          <div class="envelope-front"><span>Abra quando estiver triste</span></div>
+          <div class="envelope-seal">♥</div>
+        </div>
+      </div>
+
+      <div class="letter-envelope" onclick="toggleEnvelope(this)">
+        <div class="paper-note">
+          <h4>Abra quando sentir saudade</h4>
+          <p>A saudade só mostra que o que temos é bonito demais para ser comum. Ela aperta, mas também lembra que existe amor.</p>
+        </div>
+        <div class="envelope-base">
+          <div class="envelope-back"></div>
+          <div class="envelope-flap"></div>
+          <div class="envelope-front"><span>Abra quando sentir saudade</span></div>
+          <div class="envelope-seal">♥</div>
+        </div>
+      </div>
+
+      <div class="letter-envelope" onclick="toggleEnvelope(this)">
+        <div class="paper-note">
+          <h4>Abra quando precisar sorrir</h4>
+          <p>Eu escolheria você de novo, em qualquer dia, em qualquer versão da vida.</p>
+        </div>
+        <div class="envelope-base">
+          <div class="envelope-back"></div>
+          <div class="envelope-flap"></div>
+          <div class="envelope-front"><span>Abra quando precisar sorrir</span></div>
+          <div class="envelope-seal">♥</div>
+        </div>
+      </div>
+
+      <div class="letter-envelope" onclick="toggleEnvelope(this)">
+        <div class="paper-note">
+          <h4>Abra quando quiser lembrar de nós</h4>
+          <p>Nós somos feitos de detalhes pequenos que, juntos, viraram algo enorme.</p>
+        </div>
+        <div class="envelope-base">
+          <div class="envelope-back"></div>
+          <div class="envelope-flap"></div>
+          <div class="envelope-front"><span>Abra quando quiser lembrar de nós</span></div>
+          <div class="envelope-seal">♥</div>
+        </div>
+      </div>
+
+      <div class="letter-envelope" onclick="toggleEnvelope(this)">
+        <div class="paper-note">
+          <h4>Abra quando duvidar de si mesma</h4>
+          <p>Você é muito mais incrível do que às vezes consegue enxergar. Eu admiro sua existência, seu jeito e tudo que faz de você única.</p>
+        </div>
+        <div class="envelope-base">
+          <div class="envelope-back"></div>
+          <div class="envelope-flap"></div>
+          <div class="envelope-front"><span>Abra quando duvidar de si mesma</span></div>
+          <div class="envelope-seal">♥</div>
+        </div>
+      </div>
+
+      <div class="letter-envelope" onclick="toggleEnvelope(this)">
+        <div class="paper-note">
+          <h4>Abra quando estiver brava comigo</h4>
+          <p>Mesmo quando a gente se desentender, lembra que eu te amo. E provavelmente eu vou querer resolver tudo e te abraçar logo depois.</p>
+        </div>
+        <div class="envelope-base">
+          <div class="envelope-back"></div>
+          <div class="envelope-flap"></div>
+          <div class="envelope-front"><span>Abra quando estiver brava comigo</span></div>
+          <div class="envelope-seal">♥</div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="envelope-hint">Toque na carta para abrir ou fechar.</p>
+
+    <button onclick="proximaPagina()">Continuar</button>
+  </div>
+</section>
+
+<section id="carta">
+  <div class="page-card">
+    <div class="decor">♥ ♥ ♥</div>
+    <h2>Uma carta para você</h2>
+    <div class="letter" id="textoCarta"></div>
+    <button onclick="proximaPagina()">Continuar</button>
+  </div>
+</section>
+
+<section id="presente">
+  <div class="page-card">
+    <div class="decor">♥ ♥ ♥</div>
+    <h2 id="tituloFinal">Agora você está preparada para receber o presente final?</h2>
+    <p id="textoFinal">Depois de tudo isso, ainda falta uma última parte.</p>
+
+    <button onclick="etapaFinal()" id="btnFinal">Estou preparada</button>
+
+    <div id="mensagemFinal" class="hidden">
+      <h1>Eu te amo</h1>
+      <p>Esse site é só uma pequena forma de mostrar o quanto você é especial para mim. O presente de verdade é poder viver tudo isso com você.</p>
+      <button onclick="proximaPagina()">Ver cápsula do tempo</button>
+    </div>
+  </div>
+</section>
+
+<section id="capsula">
+  <div class="page-card">
+    <div class="decor">♥ ♥ ♥</div>
+    <h2>Cápsula do tempo</h2>
+    <p>Esta carta pertence ao nosso futuro. Se tudo der certo, quando ela abrir, nós teremos vivido mais um ano de história.</p>
+
+    <div class="card">
+      <h3 id="statusCapsula">Verificando data...</h3>
+      <p id="textoCapsula"></p>
+      <button onclick="abrirCapsula()">Tentar abrir</button>
+    </div>
+
+    <button onclick="recomecar()">Recomeçar nossa história</button>
+  </div>
+</section>
+
+<script>
+const paginas = [
+  "desbloqueio",
+  "inicio",
+  "contadores",
+  "fotos",
+  "historia",
+  "paixao",
+  "sinto",
+  "nossosplanos",
+  "nuncadisse",
+  "cartas",
+  "carta",
+  "presente",
+  "capsula"
+];
+
+let paginaAtual = 0;
+let tentativasDica = 0;
+
+function mostrarPagina(){
+  document.querySelectorAll("section").forEach(sec=>{
+    sec.classList.remove("active");
+    sec.scrollTop = 0;
+  });
+
+  document.querySelectorAll(".letter-envelope").forEach(env=>{
+    env.classList.remove("open");
+  });
+
+  document.getElementById(paginas[paginaAtual]).classList.add("active");
+
+  const btnVoltar = document.getElementById("btnVoltar");
+  const progressBox = document.getElementById("progressBox");
+  const progressText = document.getElementById("progressText");
+
+  if(paginaAtual <= 1){
+    btnVoltar.classList.remove("show");
+  }else{
+    btnVoltar.classList.add("show");
+  }
+
+  if(paginaAtual >= 1){
+    progressBox.classList.add("show");
+    progressText.classList.add("show");
+
+    const total = paginas.length - 1;
+    const atual = paginaAtual;
+    const porcentagem = (atual / total) * 100;
+
+    document.getElementById("progressFill").style.width = porcentagem + "%";
+    progressText.innerHTML = `Capítulo ${atual} de ${total}`;
+  }else{
+    progressBox.classList.remove("show");
+    progressText.classList.remove("show");
+  }
+
+  if(paginas[paginaAtual] === "carta"){
+    digitarCarta();
+  }
+
+  if(paginas[paginaAtual] === "capsula"){
+    verificarCapsula();
+  }
+}
+
+function proximaPagina(){
+  tocarMusicaAutomatico();
+
+  if(paginaAtual < paginas.length - 1){
+    paginaAtual++;
+    mostrarPagina();
+  }
+}
+
+function voltarPagina(){
+  if(paginaAtual > 1){
+    paginaAtual--;
+    mostrarPagina();
+  }
+}
+
+function verificarSenha(){
+  const senha = document.getElementById("senhaData").value.trim();
+  const erro = document.getElementById("erroSenha");
+
+  if(
+    senha === "08/11/2024" ||
+    senha === "08/11/24" ||
+    senha === "8/11/2024"
+  ){
+    erro.innerHTML = "Senha correta.";
+    tocarMusicaAutomatico();
+
+    const transicao = document.getElementById("transitionScreen");
+    transicao.classList.add("show");
+
+    setTimeout(()=>{
+      transicao.classList.remove("show");
+      paginaAtual = 1;
+      mostrarPagina();
+    },2200);
+  }else{
+    erro.innerHTML = "Essa não. Tenta de novo.";
+  }
+}
+
+function pedirDica(){
+  tentativasDica++;
+
+  const resultado = document.getElementById("dicaResultado");
+  const botao = document.getElementById("btnDica");
+
+  if(tentativasDica === 1){
+    resultado.innerHTML = `
+      Dica bloqueada.<br><br>
+      O sistema identificou que esta dica só pode ser liberada mediante pagamento de beijinhos.<br><br>
+      Quantidade necessária: <strong>10 beijinhos</strong>
+    `;
+    botao.innerHTML = "Já paguei os beijinhos";
+  }else if(tentativasDica === 2){
+    resultado.innerHTML = `
+      Processando pagamento...<br><br>
+      O sistema ainda não detectou beijinhos suficientes.<br>
+      Tente novamente após o pagamento correto.
+    `;
+    botao.innerHTML = "Pagar novamente";
+  }else{
+    resultado.innerHTML = `
+      Pagamento aprovado.<br><br>
+      Dica liberada: <strong>Primeiro beijo</strong><br><br>
+      Observação: o sistema aceita pagamento ilimitado de beijinhos mesmo após a liberação da dica.
+    `;
+    botao.innerHTML = "Dica liberada";
+  }
+}
+
+function toggleMusica(){
+  const musica = document.getElementById("musica");
+  const botao = document.getElementById("btnMusica");
+
+  if(musica.paused){
+    musica.play();
+    botao.innerHTML = "Pausar";
+  }else{
+    musica.pause();
+    botao.innerHTML = "Música";
+  }
+}
+
+function tocarMusicaAutomatico(){
+  const musica = document.getElementById("musica");
+  const botao = document.getElementById("btnMusica");
+
+  if(musica.paused){
+    musica.play().then(()=>{
+      botao.innerHTML = "Pausar";
+    }).catch(()=>{});
+  }
+}
+
+function abrirAba(i){
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  document.querySelectorAll(".tabcontent").forEach(c=>c.classList.remove("active"));
+
+  document.querySelectorAll(".tab")[i].classList.add("active");
+  document.querySelectorAll(".tabcontent")[i].classList.add("active");
+}
+
+function formatarNumero(numero){
+  return numero.toLocaleString("pt-BR");
+}
+
+function atualizarContador(id, dataInicial){
+  const agora = new Date();
+  const inicio = new Date(dataInicial);
+  const diff = agora - inicio;
+
+  const dias = Math.floor(diff / (1000*60*60*24));
+  const horas = Math.floor(diff / (1000*60*60));
+  const minutos = Math.floor(diff / (1000*60));
+  const segundos = Math.floor(diff / 1000);
+
+  document.getElementById(id).innerHTML = `
+    <div><strong>${formatarNumero(dias)}</strong>dias</div>
+    <div><strong>${formatarNumero(horas)}</strong>horas</div>
+    <div><strong>${formatarNumero(minutos)}</strong>minutos</div>
+    <div><strong>${formatarNumero(segundos)}</strong>segundos</div>
+  `;
+}
+
+function atualizarTodosContadores(){
+  atualizarContador("contadorBeijo", "2024-11-08T20:00:00");
+  atualizarContador("contadorAmor", "2026-02-15T00:00:00");
+  atualizarContador("contadorNamoro", "2026-05-16T11:00:00");
+}
+
+atualizarTodosContadores();
+setInterval(atualizarTodosContadores,1000);
+
+function abrirFotoModal(src, legenda){
+  document.getElementById("modalImg").src = src;
+  document.getElementById("modalCaption").innerHTML = legenda;
+  document.getElementById("photoModal").classList.add("show");
+}
+
+function fecharFotoModal(){
+  document.getElementById("photoModal").classList.remove("show");
+}
+
+function abrirMomento(item){
+  item.classList.toggle("open");
+}
+
+function toggleEnvelope(el){
+  document.querySelectorAll(".letter-envelope.open").forEach(env=>{
+    if(env !== el){
+      env.classList.remove("open");
+    }
+  });
+
+  el.classList.toggle("open");
+
+  if(el.classList.contains("open")){
+    setTimeout(()=>{
+      el.scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+      });
+    },250);
+  }
+}
+
+function mostrarMotivo(el){
+  const textos = {
+    "Seu sorriso":"Porque quando você sorri, parece que o mundo fica mais leve.",
+    "Seu jeito de cuidar":"Porque você tem um jeito único de demonstrar amor até nos detalhes.",
+    "Sua voz":"Porque ouvir você já melhora meu dia.",
+    "Seu abraço":"Porque nele eu encontro paz, carinho e vontade de ficar.",
+    "Sua forma de me olhar":"Porque seu olhar me faz sentir escolhido.",
+    "O jeito que você transforma meus dias":"Porque com você até os dias comuns ficam especiais.",
+    "Sua presença":"Porque ter você por perto muda tudo.",
+    "A paz que você me traz":"Porque amar você também é sentir calma."
+  };
+
+  if(!el.dataset.titulo){
+    el.dataset.titulo = el.textContent.trim();
+  }
+
+  if(el.classList.contains("aberto")){
+    el.innerHTML = el.dataset.titulo;
+    el.classList.remove("aberto");
+  }else{
+    el.innerHTML = textos[el.dataset.titulo] || el.dataset.titulo;
+    el.classList.add("aberto");
+  }
+}
+const palavras = [
+  {codigo:"AMOR", nome:"AMOR"},
+  {codigo:"PAZ", nome:"PAZ"},
+  {codigo:"CARINHO", nome:"CARINHO"},
+  {codigo:"SAUDADE", nome:"SAUDADE"},
+  {codigo:"ABRACO", nome:"ABRAÇO"},
+  {codigo:"FUTURO", nome:"FUTURO"},
+  {codigo:"CUIDADO", nome:"CUIDADO"},
+  {codigo:"PRESENCA", nome:"PRESENÇA"},
+  {codigo:"SORTE", nome:"SORTE"},
+  {codigo:"VIDA", nome:"VIDA"},
+  {codigo:"CASA", nome:"CASA"},
+  {codigo:"TERNURA", nome:"TERNURA"},
+  {codigo:"ENCANTO", nome:"ENCANTO"},
+  {codigo:"COMPANHIA", nome:"COMPANHIA"},
+  {codigo:"ACOLHIMENTO", nome:"ACOLHIMENTO"}
+];
+
+const grade = [
+  [
+    "I",
+    "M",
+    "H",
+    "Ç",
+    "Ç",
+    "O",
+    "U",
+    "A",
+    "Z",
+    "F",
+    "L",
+    "R",
+    "P",
+    "L",
+    "T",
+    "A",
+    "M",
+    "E",
+    "D",
+    "W",
+    "E"
+  ],
+  [
+    "Q",
+    "V",
+    "V",
+    "J",
+    "Ç",
+    "G",
+    "T",
+    "J",
+    "O",
+    "Ç",
+    "F",
+    "U",
+    "A",
+    "V",
+    "A",
+    "B",
+    "R",
+    "S",
+    "Y",
+    "P",
+    "B"
+  ],
+  [
+    "P",
+    "G",
+    "U",
+    "A",
+    "K",
+    "O",
+    "T",
+    "N",
+    "D",
+    "L",
+    "X",
+    "P",
+    "I",
+    "H",
+    "H",
+    "S",
+    "P",
+    "N",
+    "E",
+    "Y",
+    "T"
+  ],
+  [
+    "L",
+    "R",
+    "R",
+    "X",
+    "V",
+    "Y",
+    "H",
+    "V",
+    "A",
+    "Y",
+    "F",
+    "N",
+    "A",
+    "A",
+    "C",
+    "E",
+    "K",
+    "K",
+    "Ç",
+    "X",
+    "W"
+  ],
+  [
+    "Y",
+    "B",
+    "B",
+    "I",
+    "S",
+    "Q",
+    "K",
+    "N",
+    "D",
+    "C",
+    "F",
+    "T",
+    "R",
+    "G",
+    "D",
+    "T",
+    "T",
+    "O",
+    "P",
+    "R",
+    "A"
+  ],
+  [
+    "A",
+    "Y",
+    "A",
+    "E",
+    "T",
+    "C",
+    "C",
+    "Q",
+    "I",
+    "D",
+    "N",
+    "Ç",
+    "V",
+    "M",
+    "K",
+    "F",
+    "T",
+    "R",
+    "B",
+    "C",
+    "K"
+  ],
+  [
+    "O",
+    "M",
+    "P",
+    "T",
+    "U",
+    "E",
+    "T",
+    "E",
+    "U",
+    "R",
+    "H",
+    "E",
+    "I",
+    "C",
+    "L",
+    "N",
+    "E",
+    "Ç",
+    "O",
+    "A",
+    "H"
+  ],
+  [
+    "K",
+    "D",
+    "O",
+    "N",
+    "W",
+    "L",
+    "R",
+    "H",
+    "C",
+    "L",
+    "A",
+    "W",
+    "T",
+    "J",
+    "Z",
+    "K",
+    "R",
+    "L",
+    "V",
+    "S",
+    "X"
+  ],
+  [
+    "M",
+    "C",
+    "A",
+    "R",
+    "R",
+    "D",
+    "W",
+    "N",
+    "G",
+    "A",
+    "I",
+    "C",
+    "G",
+    "Y",
+    "X",
+    "I",
+    "H",
+    "G",
+    "D",
+    "A",
+    "J"
+  ],
+  [
+    "W",
+    "X",
+    "M",
+    "H",
+    "L",
+    "P",
+    "J",
+    "W",
+    "U",
+    "T",
+    "H",
+    "G",
+    "X",
+    "P",
+    "Ç",
+    "I",
+    "E",
+    "M",
+    "N",
+    "Y",
+    "J"
+  ],
+  [
+    "W",
+    "T",
+    "R",
+    "R",
+    "Ç",
+    "Q",
+    "I",
+    "X",
+    "R",
+    "R",
+    "N",
+    "G",
+    "J",
+    "R",
+    "M",
+    "P",
+    "U",
+    "C",
+    "Y",
+    "C",
+    "Y"
+  ],
+  [
+    "L",
+    "C",
+    "F",
+    "L",
+    "W",
+    "O",
+    "H",
+    "X",
+    "W",
+    "O",
+    "A",
+    "Ç",
+    "V",
+    "E",
+    "D",
+    "F",
+    "A",
+    "Z",
+    "E",
+    "J",
+    "T"
+  ],
+  [
+    "G",
+    "O",
+    "Y",
+    "I",
+    "C",
+    "Q",
+    "B",
+    "A",
+    "Q",
+    "W",
+    "P",
+    "I",
+    "N",
+    "S",
+    "F",
+    "W",
+    "P",
+    "D",
+    "V",
+    "Y",
+    "C"
+  ],
+  [
+    "S",
+    "O",
+    "K",
+    "Ç",
+    "S",
+    "Ç",
+    "V",
+    "S",
+    "M",
+    "A",
+    "M",
+    "T",
+    "K",
+    "E",
+    "U",
+    "A",
+    "A",
+    "E",
+    "I",
+    "D",
+    "O"
+  ],
+  [
+    "S",
+    "P",
+    "Ç",
+    "H",
+    "H",
+    "E",
+    "Y",
+    "Ç",
+    "M",
+    "T",
+    "O",
+    "Q",
+    "L",
+    "N",
+    "T",
+    "D",
+    "Z",
+    "Q",
+    "D",
+    "I",
+    "U"
+  ],
+  [
+    "P",
+    "S",
+    "F",
+    "F",
+    "K",
+    "T",
+    "S",
+    "T",
+    "Z",
+    "N",
+    "C",
+    "O",
+    "H",
+    "Ç",
+    "U",
+    "I",
+    "H",
+    "Ç",
+    "G",
+    "U",
+    "Y"
+  ],
+  [
+    "Q",
+    "Z",
+    "K",
+    "P",
+    "C",
+    "E",
+    "X",
+    "X",
+    "D",
+    "Y",
+    "V",
+    "H",
+    "F",
+    "A",
+    "R",
+    "V",
+    "V",
+    "A",
+    "D",
+    "C",
+    "R"
+  ],
+  [
+    "Q",
+    "Y",
+    "E",
+    "S",
+    "T",
+    "J",
+    "F",
+    "A",
+    "E",
+    "C",
+    "E",
+    "R",
+    "S",
+    "A",
+    "O",
+    "K",
+    "S",
+    "Ç",
+    "L",
+    "O",
+    "U"
+  ],
+  [
+    "L",
+    "Y",
+    "R",
+    "Q",
+    "B",
+    "R",
+    "B",
+    "L",
+    "I",
+    "Y",
+    "G",
+    "Ç",
+    "T",
+    "V",
+    "G",
+    "C",
+    "Ç",
+    "T",
+    "Q",
+    "G",
+    "H"
+  ],
+  [
+    "D",
+    "P",
+    "A",
+    "Ç",
+    "C",
+    "O",
+    "I",
+    "K",
+    "A",
+    "O",
+    "U",
+    "J",
+    "X",
+    "H",
+    "S",
+    "E",
+    "Ç",
+    "Z",
+    "N",
+    "K",
+    "F"
+  ]
+];
+
+let selecionadas = [];
+
+function normalizarTexto(txt){
+  return txt
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"")
+    .replace(/Ç/g,"C")
+    .replace(/ç/g,"c");
+}
+
+function criarCacaPalavras(){
+  const lista = document.getElementById("listaPalavras");
+  const tabuleiro = document.getElementById("wordSearch");
+
+  lista.innerHTML = "";
+  tabuleiro.innerHTML = "";
+
+  palavras.forEach(p=>{
+    const span = document.createElement("span");
+    span.textContent = p.nome;
+    span.id = "palavra-" + p.codigo;
+    span.dataset.codigo = p.codigo;
+    lista.appendChild(span);
+  });
+
+  const canto = document.createElement("div");
+  canto.className = "coord-corner";
+  tabuleiro.appendChild(canto);
+
+  for(let col=1; col<=21; col++){
+    const labelColuna = document.createElement("div");
+    labelColuna.className = "coord-label";
+    labelColuna.textContent = col;
+    tabuleiro.appendChild(labelColuna);
+  }
+
+  grade.forEach((linha, indexLinha)=>{
+    const labelLinha = document.createElement("div");
+    labelLinha.className = "coord-label row-label";
+    labelLinha.textContent = indexLinha + 1;
+    tabuleiro.appendChild(labelLinha);
+
+    linha.forEach((letra, indexColuna)=>{
+      const celula = document.createElement("div");
+      celula.className = "cell";
+      celula.textContent = letra;
+      celula.dataset.linha = indexLinha + 1;
+      celula.dataset.coluna = indexColuna + 1;
+      celula.onclick = function(){
+        selecionarLetra(celula);
+      };
+      tabuleiro.appendChild(celula);
+    });
+  });
+}
+
+function selecionarLetra(celula){
+  if(selecionadas.includes(celula)){
+    celula.classList.remove("selected");
+    selecionadas = selecionadas.filter(c=>c !== celula);
+  }else{
+    selecionadas.push(celula);
+    celula.classList.add("selected");
+  }
+
+  verificarPalavraSelecionada();
+}
+
+function verificarPalavraSelecionada(){
+  const palavra = normalizarTexto(selecionadas.map(c=>c.textContent).join(""));
+  const inversa = palavra.split("").reverse().join("");
+  const codigos = palavras.map(p=>p.codigo);
+
+  if(codigos.includes(palavra)){
+    marcarEncontrada(palavra);
+  }else if(codigos.includes(inversa)){
+    marcarEncontrada(inversa);
+  }
+}
+
+function marcarEncontrada(palavra){
+  selecionadas.forEach(c=>{
+    c.classList.remove("selected");
+    c.classList.add("found");
+  });
+
+  const itemLista = document.querySelector(`[data-codigo="${palavra}"]`) || document.getElementById("palavra-" + palavra);
+
+  if(itemLista){
+    itemLista.classList.add("found");
+  }
+
+  if(
+    palavras.every(p=>{
+      const item = document.querySelector(`[data-codigo="${p.codigo}"]`) || document.getElementById("palavra-" + p.codigo);
+      return item && item.classList.contains("found");
+    })
+  ){
+    document.getElementById("resultadoCaca").innerHTML =
+    "Você encontrou tudo o que eu encontro em você. Mas nenhuma palavra aqui consegue explicar completamente o quanto eu te amo.";
+  }
+
+  selecionadas = [];
+}
+
+function limparSelecao(){
+  selecionadas.forEach(c=>c.classList.remove("selected"));
+  selecionadas = [];
+}
+
+criarCacaPalavras();
+
+const carta = `Desde que você chegou, muita coisa em mim mudou.
+
+Mudou a forma como eu enxergo os meus dias, mudou a maneira como certas coisas passaram a ter mais sentido e mudou até o jeito como eu penso no futuro. Você chegou de uma forma tão bonita, tão simples e tão sua, que aos poucos foi ocupando um espaço enorme dentro de mim. E quando eu percebi, você já não era apenas alguém especial. Você já tinha virado carinho, paz, saudade, cuidado, vontade de ficar e motivo para sorrir.
+
+Você virou aquela presença boa que acalma o coração. Aquela pessoa que faz falta mesmo pouco tempo depois de ir embora. Aquela vontade de estar perto, de conversar, de abraçar, de cuidar e de dividir a vida, mesmo nas coisas mais simples. Com você, até os momentos pequenos parecem importantes. Um sorriso, uma conversa, um olhar, uma brincadeira, um silêncio confortável. Tudo ganha um significado diferente quando é com você.
+
+Eu gosto do seu jeito. Gosto do seu sorriso, da sua presença, da forma como você fala, da maneira como você me olha e até dos detalhes pequenos que talvez você nem perceba. Gosto das coisas simples que fazem você ser exatamente quem é. Gosto da sua forma de existir, da sua energia, do seu carinho e da sensação boa que você deixa em mim.
+
+Tem algo em você que me prende de um jeito bonito. Não é algo que eu saiba explicar completamente, mas é algo que eu sinto. É como se, ao seu lado, tudo ficasse mais leve. Como se o mundo desacelerasse um pouco e eu pudesse simplesmente aproveitar a sorte de ter você ali comigo. Você me traz uma paz que não se encontra em qualquer lugar. Uma paz que não precisa de muito, porque só a sua presença já faz diferença.
+
+Eu não preciso de mil fotos ou de mil conversas salvas para saber o quanto você é importante para mim. Claro que cada lembrança tem seu valor, mas o que eu sinto por você vai muito além de registros. Ficou guardado em mim de um jeito mais profundo. Ficou nos momentos que vivi ao seu lado, nas risadas, nas conversas, nos abraços, nos olhares, nas pequenas lembranças e em tudo aquilo que talvez pareça simples, mas que para mim significa muito.
+
+O que eu sinto por você está nas coisas que eu lembro sem precisar procurar. Está na saudade que aparece do nada, na vontade de te contar alguma coisa, no desejo de estar perto, na felicidade de saber que você faz parte da minha vida. Está nos planos que eu imagino, nos momentos que eu quero viver e na certeza de que você se tornou alguém muito importante para mim.
+
+Você chegou e, de alguma forma, deixou tudo mais bonito. Deixou meus dias mais leves, meus pensamentos mais cheios de carinho e meu coração mais tranquilo. Você me fez perceber que amar também pode ser cuidado, presença, respeito, paciência e vontade de permanecer. Me fez entender que o amor não está só nas grandes declarações, mas também nos detalhes, nos gestos pequenos e na escolha de continuar todos os dias.
+
+Eu admiro você de um jeito muito sincero. Admiro quem você é, o seu jeito, sua forma de estar no mundo e tudo aquilo que faz de você uma pessoa única. Mesmo quando eu não consigo transformar tudo em palavras, eu espero que você consiga sentir o tamanho do carinho que eu tenho por você. Porque, por mais que eu tente escrever, ainda parece pouco perto do que você representa para mim.
+
+Obrigado por ser você. Obrigado por ter chegado na minha vida e por ter ficado de um jeito tão especial. Obrigado por me permitir te amar, por me permitir cuidar, por dividir momentos comigo e por fazer parte de tantas coisas boas que eu carrego dentro de mim.
+
+Eu sou grato por cada instante ao seu lado. Pelas conversas, pelos sorrisos, pelos abraços, pelas lembranças e até pelas coisas simples que, com você, deixam de ser simples. Sou grato por ter você comigo, por tudo que já vivemos e por tudo que ainda quero viver.
+
+E, acima de tudo, obrigado por fazer parte da minha vida. Não de qualquer jeito, mas de um jeito bonito, verdadeiro e especial. Você se tornou presença, acolhimento, carinho e amor.
+
+Eu te amo. E amo tudo aquilo que encontro em você.`;
+
+let i = 0;
+let digitando = false;
+
+function digitarCarta(){
+  if(digitando) return;
+
+  digitando = true;
+
+  const caixa = document.getElementById("textoCarta");
+  caixa.innerHTML = "";
+
+  const intervalo = setInterval(()=>{
+    caixa.innerHTML += carta.charAt(i);
+    i++;
+
+    if(i >= carta.length){
+      clearInterval(intervalo);
+    }
+  },12);
+}
+
+let etapa = 0;
+
+function etapaFinal(){
+  const titulo = document.getElementById("tituloFinal");
+  const texto = document.getElementById("textoFinal");
+  const botao = document.getElementById("btnFinal");
+
+  etapa++;
+
+  if(etapa === 1){
+    titulo.innerHTML = "Tem certeza mesmo?";
+    texto.innerHTML = "Mesmo sabendo que isso pode te emocionar?";
+    botao.innerHTML = "Tenho certeza";
+  }else if(etapa === 2){
+    titulo.innerHTML = "Última chance";
+    texto.innerHTML = "Então respira. Agora é de verdade.";
+    botao.innerHTML = "Abrir presente";
+  }else{
+    botao.style.display = "none";
+    document.getElementById("mensagemFinal").classList.remove("hidden");
+    chuvaCoracoes();
+  }
+}
+
+function chuvaCoracoes(){
+  for(let i=0;i<80;i++){
+    setTimeout(()=>{
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "♥";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = Math.random() * 25 + 15 + "px";
+      document.body.appendChild(heart);
+
+      setTimeout(()=>heart.remove(),5000);
+    }, i * 80);
+  }
+}
+
+function verificarCapsula(){
+  const abertura = new Date("2027-05-16T11:00:00");
+  const agora = new Date();
+  const status = document.getElementById("statusCapsula");
+  const texto = document.getElementById("textoCapsula");
+
+  if(agora >= abertura){
+    status.innerHTML = "Cápsula liberada";
+    texto.innerHTML = "Se passou um ano e você está lendo isso, espero que a gente ainda esteja escolhendo um ao outro todos os dias.";
+  }else{
+    const dias = Math.ceil((abertura - agora)/(1000*60*60*24));
+    status.innerHTML = "Ainda não";
+    texto.innerHTML = `Abre em: 16/05/2027 às 11:00. Faltam aproximadamente ${dias} dias. Essa mensagem pertence ao nosso futuro.`;
+  }
+}
+
+function abrirCapsula(){
+  verificarCapsula();
+}
+
+function recomecar(){
+  paginaAtual = 1;
+  mostrarPagina();
+}
+
+mostrarPagina();
+</script>
+
+</body>
+</html>
